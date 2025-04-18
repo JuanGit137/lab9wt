@@ -1,0 +1,25 @@
+<!-- filepath: c:\Users\jidel\Desktop\U\WT\lab6\app\views\users\index.html.erb -->
+<h1>Lista de Usuarios</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.first_name %></td>
+        <td><%= user.email %></td>
+        <td>
+          <%= link_to "Ver", user_path(user), class: "btn btn-info" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Crear Nuevo Usuario", new_user_path, class: "btn btn-success" %>

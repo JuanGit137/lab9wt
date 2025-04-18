@@ -1,0 +1,28 @@
+<!-- filepath: c:\Users\jidel\Desktop\U\WT\lab6\app\views\chat\show.html.erb -->
+<div class="chats-details">
+  <h1>Detalles del Chat</h1>
+
+  <p>
+    <strong>Remitente:</strong>
+    <%= User.find(@chat.sender_id).first_name %> <%= User.find(@chat.sender_id).last_name %>
+  </p>
+
+  <p>
+    <strong>Receptor:</strong>
+    <%= User.find(@chat.receiver_id).first_name %> <%= User.find(@chat.receiver_id).last_name %>
+  </p>
+
+  <h2>Mensajes</h2>
+  <ul>
+    <% @chat.messages.each do |message| %>
+      <li>
+        <strong><%= User.find(message.user_id).first_name %>:</strong>
+        <%= message.body %> <em>(<%= message.created_at.strftime("%d/%m/%Y %H:%M") %>)</em>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="actions">
+    <%= link_to "Volver a la Lista de Chats", chats_path, class: "btn btn-secondary" %>
+  </div>
+</div>

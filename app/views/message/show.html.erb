@@ -1,0 +1,28 @@
+<!-- filepath: c:\Users\jidel\Desktop\U\WT\lab6\app\views\messages\show.html.erb -->
+<div class="message-details">
+  <h1>Detalles del Mensaje</h1>
+
+  <p>
+    <strong>Usuario:</strong>
+    <%= User.find(@message.user_id).first_name %> <%= User.find(@message.user_id).last_name %>
+  </p>
+
+  <p>
+    <strong>Chat ID:</strong>
+    <%= @message.chat_id %>
+  </p>
+
+  <p>
+    <strong>Contenido:</strong>
+    <%= @message.body %>
+  </p>
+
+  <p>
+    <strong>Fecha de Creación:</strong>
+    <%= @message.created_at.strftime("%d/%m/%Y %H:%M") %>
+  </p>
+
+  <div class="actions">
+    <%= link_to "Volver a la Lista de Mensajes", messages_path, class: "btn btn-secondary" %>
+  </div>
+</div>

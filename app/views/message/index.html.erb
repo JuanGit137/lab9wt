@@ -1,0 +1,35 @@
+<!-- filepath: c:\Users\jidel\Desktop\U\WT\lab6\app\views\message\index.html.erb -->
+<h1>Lista de Usuarios</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Mensaje</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.first_name %> <%= user.last_name %></td>
+        <td><%= user.email %></td>
+        <td>
+          <% if user.messages.any? %>
+            <%= user.messages.first.body %> 
+          <% else %>
+            <span>No hay mensajes</span>
+          <% end %>
+        </td>
+        <td>
+          <% if user.messages.any? %>
+            <%= link_to "Ver Mensaje", message_path(user.messages.first.body), class: "btn btn-info" %>
+          <% else %>
+            <span>Sin acción</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
