@@ -1,22 +1,28 @@
 class ChatController < ApplicationController
     def index
-        @messages = Message.all
-        @users = User.all
         @chats = Chat.all
     end
 
     def show
-        @message = Message.find(params[:id])
+        @chat = Chat.find(params[:id])
     end
 
     def new
-        @message = Message.new
+        @chat = Chat.new
+        @users = User.all 
+        @sender = User.find_by(id: params[:sender_id])
+        @receiver = User.find_by(id: params[:receiver_id])
+        puts "Sender ID: #{params[:sender_id]}"
+        puts "Receiver ID: #{params[:receiver_id]}"
     end
 
     def create
-        @message = Message.new(message_params)
-        if @message.save
-            redirect_to @message, notice: 'Message was successfully created.'
+        @chat = Chat.new(
+      sender_id: params[:sender_id],
+      receiver_id: params[:receiver_id]
+    )
+        if @chat.save
+            redirect_to @chat, notice: 'Chat was successfully created.'
         else
             render :new
         end
@@ -24,7 +30,7 @@ class ChatController < ApplicationController
 
     private
 
-    def message_params
-        params.require(:message).permit(:content, :user_id)
+    def chat_params
+        params.require(:chat).permit(:sender_id, :receiver_id)
     end
 end

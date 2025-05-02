@@ -1,0 +1,23 @@
+<h1>Crear Nuevo Usuario</h1>
+
+<%= form_with(model: @user) do |f| %>
+  <div class="mb-3">
+    <%= f.label :first_name, "Nombre", class: "form-label" %>
+    <%= f.text_field :first_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :last_name, "Apellido", class: "form-label" %>
+    <%= f.text_field :last_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :email, "Correo Electrónico", class: "form-label" %>
+    <%= f.email_field :email, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.submit "Guardar Usuario", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", users_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

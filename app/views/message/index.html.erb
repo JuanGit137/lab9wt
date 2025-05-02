@@ -24,7 +24,7 @@
         </td>
         <td>
           <% if user.messages.any? %>
-            <%= link_to "Ver Mensaje", message_path(user.messages.first.body), class: "btn btn-info" %>
+            <%= link_to "Ver Mensaje", message_path(user.messages.first), class: "btn btn-info" %>
           <% else %>
             <span>Sin acción</span>
           <% end %>
@@ -33,3 +33,4 @@
     <% end %>
   </tbody>
 </table>
+<%= link_to "Crear Nuevo Mensaje", new_message_path, class: "btn btn-success" %>

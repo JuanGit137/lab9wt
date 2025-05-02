@@ -1,0 +1,41 @@
+<!-- filepath: /home/juanu137/lab6/app/views/chat/new.html.erb -->
+<h1>Crear Nuevo Chat</h1>
+
+<div class="mb-4">
+  <h3>Selección actual:</h3>
+  <p><strong>Remitente:</strong> <%= @sender&.first_name || "No seleccionado" %></p>
+  <p><strong>Destinatario:</strong> <%= @receiver&.first_name || "No seleccionado" %></p>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.first_name %> <%= user.last_name %></td>
+        <td><%= user.email %></td>
+        <td>
+          <%= link_to "Como remitente", new_chat_path(sender_id: user.id, receiver_id: params[:receiver_id]), class: "btn btn-primary" %>
+          <%= link_to "Como destinatario", new_chat_path(sender_id: params[:sender_id], receiver_id: user.id), class: "btn btn-secondary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if @sender && @receiver %>
+  <div class="mt-4">
+    <h4>Crear chat entre <%= @sender.first_name %> y <%= @receiver.first_name %></h4>
+    <%= form_with(url: chats_path, method: :post) do |f| %>
+      <%= hidden_field_tag :sender_id, @sender.id %>
+      <%= hidden_field_tag :receiver_id, @receiver.id %>
+      <%= f.submit "Crear Chat", class: "btn btn-success" %>
+    <% end %>
+  </div>
+<% end %>

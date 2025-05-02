@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   resources :users
   resources :messages, controller: "message"
   resources :chats, controller: "chat"
+  resources :chats, only: [:new, :create, :index]
 end
