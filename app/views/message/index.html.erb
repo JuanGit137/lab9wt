@@ -25,6 +25,7 @@
         <td>
           <% if user.messages.any? %>
             <%= link_to "Ver Mensaje", message_path(user.messages.first), class: "btn btn-info" %>
+            <%= link_to "Editar", edit_message_path(user.messages.first), class: "btn btn-warning" %>
           <% else %>
             <span>Sin acción</span>
           <% end %>

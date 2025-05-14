@@ -15,7 +15,17 @@ class ChatController < ApplicationController
         puts "Sender ID: #{params[:sender_id]}"
         puts "Receiver ID: #{params[:receiver_id]}"
     end
-
+    def edit
+        @chat = Chat.find(params[:id])
+    end
+    def update
+        @chat = Chat.find(params[:id])
+        if @chat.update(chat_params)
+            redirect_to @chat, notice: 'Chat was successfully updated.'
+        else
+            render :edit
+        end
+    end
     def create
         @chat = Chat.new(
       sender_id: params[:sender_id],

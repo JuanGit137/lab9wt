@@ -1,0 +1,60 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+          <h2 class="mb-0">Editar Usuario</h2>
+        </div>
+        <div class="card-body">
+          <%= form_with(model: @user, local: true) do |form| %>
+            <% if @user.errors.any? %>
+              <div class="alert alert-danger">
+                <h4><%= pluralize(@user.errors.count, "error") %> impidieron guardar este usuario:</h4>
+                <ul>
+                  <% @user.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="mb-3">
+              <%= form.label :first_name, "Nombre", class: "form-label" %>
+              <%= form.text_field :first_name, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :last_name, "Apellido", class: "form-label" %>
+              <%= form.text_field :last_name, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :email, "Email", class: "form-label" %>
+              <%= form.email_field :email, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :password, "Contraseña", class: "form-label" %>
+              <%= form.password_field :password, class: "form-control", placeholder: "Dejar en blanco si no deseas cambiarla" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :password_confirmation, "Confirmar Contraseña", class: "form-label" %>
+              <%= form.password_field :password_confirmation, class: "form-control" %>
+            </div>
+
+            <div class="d-grid gap-2">
+              <%= form.submit "Actualizar Usuario", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-between">
+            <%= link_to "Ver Usuario", @user, class: "btn btn-sm btn-info" %>
+            <%= link_to "Volver a la Lista", users_path, class: "btn btn-sm btn-secondary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

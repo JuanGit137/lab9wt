@@ -16,6 +16,7 @@
         <td><%= User.find(chat.receiver_id).first_name %> <%= User.find(chat.receiver_id).last_name %></td>
         <td>
           <%= link_to "Ver", chat_path(chat), class: "btn btn-info" %>
+          <%= link_to "Editar", edit_chat_path(chat), class: "btn btn-warning" %>
         </td>
       </tr>
     <% end %>

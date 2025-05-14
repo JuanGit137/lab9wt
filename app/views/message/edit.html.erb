@@ -1,0 +1,88 @@
+<div class="container-fluid py-5 bg-light">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-dark text-white py-3">
+          <h2 class="fw-bold mb-0">Editar Mensaje</h2>
+          <p class="text-light mb-0"><small>Última actualización: <%= @message.updated_at.strftime("%d/%m/%Y %H:%M") if @message.updated_at %></small></p>
+        </div>
+        
+        <div class="card-body p-4">
+          <%= form_with(model: @message, local: true) do |form| %>
+            <% if @message.errors.any? %>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <h5 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>No se pudo guardar el mensaje</h5>
+                <hr>
+                <ul class="mb-0">
+                  <% @message.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% end %>
+
+            <div class="mb-4">
+              <%= form.label :title, "Asunto", class: "form-label fw-bold" %>
+              <%= form.text_field :title, class: "form-control form-control-lg", placeholder: "Ingresa un asunto descriptivo" %>
+            </div>
+
+            <div class="mb-4">
+              <%= form.label :content, "Contenido", class: "form-label fw-bold" %>
+              <%= form.text_area :content, rows: 6, class: "form-control", placeholder: "Escribe tu mensaje aquí..." %>
+              <div class="form-text text-end">
+                <span id="charCount">0</span>/1000 caracteres
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <%= form.label :recipient_id, "Destinatario", class: "form-label fw-bold" %>
+              <%= form.collection_select :recipient_id, User.all, :id, :first_name, {prompt: "Selecciona un destinatario"}, {class: "form-select"} %>
+            </div>
+
+            <div class="mb-4">
+              <div class="form-check form-switch">
+                <%= form.check_box :important, class: "form-check-input", role: "switch", id: "importantSwitch" %>
+                <%= form.label :important, "Marcar como importante", class: "form-check-label", for: "importantSwitch" %>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <%= form.submit "Guardar Cambios", class: "btn btn-primary btn-lg" %>
+            </div>
+          <% end %>
+        </div>
+        
+        <div class="card-footer">
+        <div class="d-flex justify-content-between">
+            <%= link_to "Ver Mensajes", @mensajes, class: "btn btn-sm btn-info" %>
+            <%= link_to "Volver a la Lista", messages_path, class: "btn btn-sm btn-secondary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.querySelector('textarea[name="message[content]"]');
+    const charCount = document.getElementById('charCount');
+    
+    if (textarea && charCount) {
+      const updateCount = () => {
+        const count = textarea.value.length;
+        charCount.textContent = count;
+        
+        if (count > 1000) {
+          charCount.classList.add('text-danger');
+        } else {
+          charCount.classList.remove('text-danger');
+        }
+      };
+      
+      textarea.addEventListener('input', updateCount);
+      updateCount(); // Inicializar contador
+    }
+  });
+</script>

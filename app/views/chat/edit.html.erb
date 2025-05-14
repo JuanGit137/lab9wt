@@ -1,0 +1,45 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+          <h2 class="mb-0">Editar Chat</h2>
+        </div>
+        <div class="card-body">
+          <%= form_with(model: @chat, local: true) do |form| %>
+            <% if @chat.errors.any? %>
+              <div class="alert alert-danger">
+                <h4><%= pluralize(@chat.errors.count, "error") %> impidieron guardar este chat:</h4>
+                <ul>
+                  <% @chat.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="mb-3">
+              <%= form.label :sender_id, "Remitente", class: "form-label" %>
+              <%= form.collection_select :sender_id, User.all, :id, :first_name, {}, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :receiver_id, "Destinatario", class: "form-label" %>
+              <%= form.collection_select :receiver_id, User.all, :id, :first_name, {}, class: "form-control" %>
+            </div>
+
+            <div class="d-grid gap-2 mb-3">
+              <%= form.submit "Actualizar Chat", class: "btn btn-primary" %>
+            </div>
+          <% end %>
+          
+          <div class="card-footer">
+          <div class="d-flex justify-content-between">
+            <%= link_to "Ver Chat", @chat, class: "btn btn-sm btn-info" %>
+            <%= link_to "Volver a la Lista", chat_path, class: "btn btn-sm btn-secondary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
