@@ -1,26 +1,43 @@
-<!-- filepath: c:\Users\jidel\Desktop\U\WT\lab6\app\views\users\index.html.erb -->
-<h1>Lista de Usuarios</h1>
+<div class="container">
+  <h1>Lista de Usuarios</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.first_name %></td>
-        <td><%= user.email %></td>
-        <td>
-          <%= link_to "Ver", user_path(user), class: "btn btn-primary" %>
-          <%= link_to "Editar", edit_user_path(user), class: "btn btn-warning" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.first_name %></td>
+                <td><%= user.email %></td>
+                <td>
+                  <%= link_to "Ver", user_path(user), class: "btn btn-info btn-sm" %>
+                  <% if can? :update, user %>
+                    <%= link_to "Editar", edit_user_path(user), class: "btn btn-warning btn-sm" %>
+                  <% end %>
+                  <% if can? :destroy, user %>
+                    <%= link_to "Eliminar", user_path(user), 
+                            method: :delete, 
+                            data: { confirm: "¿Está seguro?" },
+                            class: "btn btn-danger btn-sm" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-<%= link_to "Crear Nuevo Usuario", new_user_path, class: "btn btn-success" %>
+  <% if can? :create, User %>
+    <%= link_to "Crear Nuevo Usuario", new_user_path, class: "btn btn-success mb-4" %>
+  <% end %>
+</div>

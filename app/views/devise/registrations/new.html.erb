@@ -1,0 +1,39 @@
+<div class="card shadow border-primary">
+  <div class="card-header bg-white border-primary">
+    <h2 class="mb-0 text-dark">Sign up</h2>
+  </div>
+  <div class="card-body bg-white">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="mb-3">
+        <%= f.label :email, "Email", class: "form-label text-dark" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control border-primary" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password, "Password", class: "form-label text-dark" %>
+        <% if @minimum_password_length %>
+          <small class="text-muted">(<%= @minimum_password_length %> characters minimum)</small>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control border-primary" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :password_confirmation, "Confirm password", class: "form-label text-dark" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control border-primary" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.submit "Sign up", class: "btn btn-primary text-white" %>
+        <%= link_to "Back", root_path, class: "btn btn-outline-primary ms-2" %>
+      </div>
+    <% end %>
+
+    <hr class="my-3 border-primary">
+    
+    <div class="d-flex flex-column">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

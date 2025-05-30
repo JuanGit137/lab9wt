@@ -1,0 +1,36 @@
+<div class="card shadow border-primary">
+  <div class="card-header bg-white border-primary">
+    <h2 class="mb-0 text-dark">Log in</h2>
+  </div>
+  <div class="card-body bg-white">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="mb-3">
+        <%= f.label :email, "Email", class: "form-label text-dark" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control border-primary" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password, "Password", class: "form-label text-dark" %>
+        <%= f.password_field :password, autocomplete: "current-password", class: "form-control border-primary" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="mb-3 form-check">
+          <%= f.check_box :remember_me, class: "form-check-input border-primary" %>
+          <%= f.label :remember_me, "Remember me", class: "form-check-label text-dark" %>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= f.submit "Log in", class: "btn btn-primary text-white" %>
+        <%= link_to "Back", root_path, class: "btn btn-outline-primary ms-2" %>
+      </div>
+    <% end %>
+
+    <hr class="my-3 border-primary">
+    
+    <div class="d-flex flex-column">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>

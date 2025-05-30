@@ -1,1 +1,1 @@
-This is my Lab 6 work. I had some problems with the message show and the chat show, but the rest is fine. Greetings!
+Hello, this is my lab9 work. If you register yourself with an email containing the word "admin" (for example, admin@example.com), you will have access to certain additional buttons and actions. Sorry for the mix of styles and languages, it will be fixed.

@@ -1,37 +1,54 @@
 <!-- filepath: c:\Users\jidel\Desktop\U\WT\lab6\app\views\message\index.html.erb -->
-<h1>Lista de Usuarios</h1>
+<div class="container">
+  <h1>Lista de Usuarios</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Mensaje</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.first_name %> <%= user.last_name %></td>
-        <td><%= user.email %></td>
-        <td>
-          <% if user.messages.any? %>
-            <%= user.messages.first.body %> 
-          <% else %>
-            <span>No hay mensajes</span>
-          <% end %>
-        </td>
-        <td>
-          <% if user.messages.any? %>
-            <%= link_to "Ver Mensaje", message_path(user.messages.first), class: "btn btn-info" %>
-            <%= link_to "Editar", edit_message_path(user.messages.first), class: "btn btn-warning" %>
-          <% else %>
-            <span>Sin acción</span>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= link_to "Crear Nuevo Mensaje", new_message_path, class: "btn btn-success" %>
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Mensaje</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.first_name %> <%= user.last_name %></td>
+                <td><%= user.email %></td>
+                <td>
+                  <% if user.messages.any? %>
+                    <%= user.messages.first.body %> 
+                  <% else %>
+                    <span class="text-muted">No hay mensajes</span>
+                  <% end %>
+                </td>
+                <td>
+                  <% if user.messages.any? %>
+                    <%= link_to "Ver Mensaje", message_path(user.messages.first), class: "btn btn-info btn-sm" %>
+                    <% if can? :update, user.messages.first %>
+                      <%= link_to "Editar", edit_message_path(user.messages.first), class: "btn btn-warning btn-sm" %>
+                    <% end %>
+                    <% if can? :destroy, user.messages.first %>
+                      <%= link_to "Eliminar", message_path(user.messages.first), 
+                              method: :delete, 
+                              data: { confirm: "¿Está seguro?" },
+                              class: "btn btn-danger btn-sm" %>
+                    <% end %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <% if can? :create, Message %>
+    <%= link_to "Crear Nuevo Mensaje", new_message_path, class: "btn btn-success mb-4" %>
+  <% end %>
+</div>
