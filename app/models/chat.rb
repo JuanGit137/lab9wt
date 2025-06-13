@@ -6,10 +6,15 @@ class Chat < ApplicationRecord
 
   validates :sender_id, presence: true
   validates :receiver_id, presence: true
-  validate :sender_and_receiver_must_be_different
+  validate :sender_and_receiver_must_be_different  
+  scope :for_user, ->(user) { where("sender_id = ? OR receiver_id = ?", user.id, user.id) }
   
-  private
-  
+  def other_participant(current_user)
+    sender_id == current_user.id ? receiver : sender
+  end
+  def last_message
+    messages.order(:created_at).last
+  end
   def sender_and_receiver_must_be_different
     if sender_id == receiver_id
       errors.add(:base, "No puedes crear un chat contigo mismo")

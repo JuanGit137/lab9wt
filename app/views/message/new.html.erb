@@ -21,8 +21,8 @@
   </div>
 
   <div class="mb-3">
-    <%= f.label :user_id, "Autor", class: "form-label" %>
-    <%= f.select :user_id, 
+    <%= f.label :current_user, "Autor", class: "form-label" %>
+    <%= f.select :current_user, 
                  @users.map { |user| ["#{user.first_name} #{user.last_name}", user.id] }, 
                  { include_blank: "Seleccione un autor" }, 
                  class: "form-select" %>

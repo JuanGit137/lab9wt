@@ -1,51 +1,73 @@
-<div class="container">
-  <h1>Lista de Chats</h1>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h1>My Inbox</h1>
 
-  <div class="card mb-4">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Remitente</th>
-              <th>Receptor</th>
-              <th>Último mensaje</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @chats.each do |chat| %>
-              <tr>
-                <td><%= User.find(chat.sender_id).first_name %> <%= User.find(chat.sender_id).last_name %></td>
-                <td><%= User.find(chat.receiver_id).first_name %> <%= User.find(chat.receiver_id).last_name %></td>
-                <td>
-                  <% if chat.messages.any? %>
-                    <%= chat.messages.order(created_at: :desc).first.body.truncate(30) %>
-                  <% else %>
-                    <span class="text-muted">No hay mensajes</span>
-                  <% end %>
-                </td>
-                <td>
-                  <%= link_to "Ver", chat_path(chat), class: "btn btn-info btn-sm" %>
-                  <% if can? :update, chat %>
-                    <%= link_to "Editar", edit_chat_path(chat), class: "btn btn-warning btn-sm" %>
-                  <% end %>
-                  <% if can? :destroy, chat %>
-                    <%= link_to "Eliminar", chat_path(chat), 
-                            method: :delete, 
-                            data: { confirm: "¿Está seguro?" },
-                            class: "btn btn-danger btn-sm" %>
-                  <% end %>
-                </td>
-              </tr>
+      <div class="card mb-4">
+        <div class="card-body">
+          <% if @chats&.any? %>
+            <% @chats.each_with_index do |chat, index| %>
+              <% other_user = chat.other_participant(current_user) %>
+              <% last_msg = chat.last_message %>
+              
+              <%= link_to chat_path(chat), class: "text-decoration-none" do %>
+                <div class="d-flex w-100 justify-content-between py-3 hover-bg-light">
+                  <div class="d-flex align-items-center">
+                    <div class="avatar me-3">
+                      <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" 
+                           style="width: 40px; height: 40px;">
+                        <%= other_user&.first_name&.first&.upcase || "?" %>
+                      </div>
+                    </div>
+                    <div>
+                      <h6 class="mb-1 text-dark"><%= other_user&.first_name %> <%= other_user&.last_name %></h6>
+                      <% if last_msg %>
+                        <p class="mb-1 text-muted small">
+                          <%= truncate(last_msg.body, length: 50) %>
+                        </p>
+                      <% else %>
+                        <p class="mb-1 text-muted small">No messages yet</p>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="text-end">
+                    <% if last_msg %>
+                      <small class="text-muted">
+                        <%= time_ago_in_words(last_msg.created_at) %> ago
+                      </small>
+                    <% end %>
+                    <div class="mt-1">
+                      <span class="badge bg-primary rounded-pill">
+                        <%= chat.messages.count %>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+              
+              <% unless index == @chats.length - 1 %>
+                <div class="border-top border-primary w-90 mx-auto my-2" style="opacity: 0.5;"></div>
+              <% end %>
             <% end %>
-          </tbody>
-        </table>
+          <% else %>
+            <div class="text-center py-5">
+              <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+              <h5 class="text-muted">No chats yet</h5>
+              <p class="text-muted">Start a conversation with someone!</p>
+              <%= link_to "Start New Chat", new_chat_path, class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        </div>
       </div>
+
+      <%= link_to "New Chat", new_chat_path, class: "btn btn-success mb-4" %>
     </div>
   </div>
-
-  <% if can? :create, Chat %>
-    <%= link_to "Crear Nuevo Chat", new_chat_path, class: "btn btn-success mb-4" %>
-  <% end %>
 </div>
+
+<style>
+.hover-bg-light:hover {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+</style>

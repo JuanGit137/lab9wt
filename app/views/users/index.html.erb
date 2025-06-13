@@ -23,10 +23,13 @@
                     <%= link_to "Editar", edit_user_path(user), class: "btn btn-warning btn-sm" %>
                   <% end %>
                   <% if can? :destroy, user %>
-                    <%= link_to "Eliminar", user_path(user), 
-                            method: :delete, 
-                            data: { confirm: "¿Está seguro?" },
-                            class: "btn btn-danger btn-sm" %>
+                    <button type="button" class="btn btn-danger btn-sm" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#confirmModal" 
+                            data-user-name="<%= user.first_name %>" 
+                            data-user-id="<%= user.id %>">
+                      Eliminar
+                    </button>
                   <% end %>
                 </td>
               </tr>
@@ -41,3 +44,44 @@
     <%= link_to "Crear Nuevo Usuario", new_user_path, class: "btn btn-success mb-4" %>
   <% end %>
 </div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que quieres eliminar al usuario <strong id="userName"></strong>?</p>
+        <p class="text-muted">Esta acción no se puede deshacer.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form id="deleteForm" method="post" style="display: inline;">
+          <input type="hidden" name="_method" value="delete">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+          <button type="submit" class="btn btn-danger">Eliminar usuario</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('confirmModal');
+  
+  modal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const userName = button.getAttribute('data-user-name');
+    const userId = button.getAttribute('data-user-id');
+    
+    // Actualizar el texto del modal
+    document.getElementById('userName').textContent = userName;
+    
+    // Actualizar la acción del formulario
+    document.getElementById('deleteForm').action = `/users/${userId}`;
+  });
+});
+</script>

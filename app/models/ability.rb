@@ -10,7 +10,7 @@ class Ability
     can :create, Message
     can :create, Chat
     can [:update, :destroy], Message, user_id: user.id
-
+    can [:update, :destroy], User, id: user.id
 
     if user.email&.downcase&.include?("admin") 
       can [:update, :destroy, :create], User

@@ -31,6 +31,12 @@ class UsersController < ApplicationController
             render :new
         end
     end
+    def destroy 
+      Chat.where("sender_id = ? OR receiver_id = ?", @user.id, @user.id).destroy_all
+      @user.destroy
+      redirect_to users_path, notice: 'Account deleted successfully'
+    end
+
     def user_params
         params.require(:user).permit(:first_name, :last_name, :email)
       end
